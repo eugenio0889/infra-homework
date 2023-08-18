@@ -33,12 +33,12 @@ on:
 env:
   AWS_REGION: us-east-1                       # set this to your preferred AWS region, e.g. us-west-1
   ECR_REPOSITORY: demo-kotlin                 # set this to your Amazon ECR repository name
-  ECS_SERVICE: StrigoService2                 # set this to your Amazon ECS service name
-  ECS_CLUSTER: ProdCluster2                   # set this to your Amazon ECS cluster name
+  ECS_SERVICE: kotlin-service                 # set this to your Amazon ECS service name
+  ECS_CLUSTER: ToporCluster                   # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION: mainAppTask.json       # set this to the path to your Amazon ECS task definition
                                               # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME: kotlinApp3                  # set this to the name of the container in the
-                                               # containerDefinitions section of your task definition
+  CONTAINER_NAME: kotlin                      # set this to the name of the container in the
+                                              # containerDefinitions section of your task definition
 
 permissions:
   contents: read
@@ -62,12 +62,12 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-#        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#        aws-region: ${{ env.AWS_REGION }}
-        aws-access-key-id: AKIA4F2LK7QONP7PURN5
-        aws-secret-access-key: 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
-        aws-region: us-east-1
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+#        aws-access-key-id: AKIA4F2LK7QONP7PURN5
+#        aws-secret-access-key: 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
+#        aws-region: us-east-1
 
     - name: Login to Amazon ECR
       id: login-ecr
@@ -79,7 +79,6 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        echo $(./gradlew -version)
         # Build a docker container and
         # push it to ECR so that it can
         # be deployed to ECS.

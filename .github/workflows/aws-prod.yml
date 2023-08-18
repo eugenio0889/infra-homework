@@ -66,14 +66,11 @@ jobs:
 
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin' # See 'Supported distributions' for available options
-        java-version: '17'
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
+        echo $(./gradlew -version)
         # Build a docker container and
         # push it to ECR so that it can
         # be deployed to ECS.
